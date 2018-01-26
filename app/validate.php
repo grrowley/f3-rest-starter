@@ -763,6 +763,26 @@ class Validate extends Prefab
     // ** ------------------------- Validators ------------------------------------ ** //
 
 
+    protected function validate_dbunique($field, $input, $param = null)
+    {
+        if (!isset($input[$field])) {
+            return;
+        }
+
+        $model = new $param();
+        $model->load([$field . '=?', $input[$field]]);
+        if ($model->dry()) {
+            return true;
+        }
+
+        return array(
+            'field' => $field,
+            'value' => $value,
+            'rule' => __FUNCTION__,
+            'param' => $param,
+        );
+    }
+
     /**
      * Verify that a value is contained within the pre-defined value set.
      *

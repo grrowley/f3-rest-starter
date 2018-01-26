@@ -16,6 +16,13 @@ abstract class Endpoint
         $this->request  = \Request::instance();
         $this->response = \Response::instance();
         $this->token    = $this->request->token();
+        // run initilization
+        $this->init($app, $params);
+    }
+
+    function init($app, $params)
+    {
+        return;
     }
 
     function beforeRoute($app, $params)

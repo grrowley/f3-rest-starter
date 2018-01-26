@@ -23,9 +23,9 @@ class Helper extends Prefab
         return true;
     }
 
-    static function get_avatar($id, $local = true)
+    static function get_avatar($id, $local = true, $root = 'api/uploads/avatars/')
     {
-        $dir = ROOT . 'api/uploads/avatars/';
+        $dir = ROOT . trim($root , '/') . '/';
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
@@ -73,5 +73,13 @@ class Helper extends Prefab
                 $xml->addChild("$key",htmlspecialchars("$value"));
             }
         }
+    }
+
+    static function recursive_glob($pattern, $opts = 0) {
+        $files = glob($pattern, $opts); 
+        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+            $files = array_merge($files, self::recursive_glob($dir . '/' . basename($pattern), $opts));
+        }
+        return $files;
     }
 }

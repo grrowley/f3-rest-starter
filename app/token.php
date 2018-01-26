@@ -24,17 +24,20 @@ class Token extends Prefab
         $tks = explode('.', $jwt);
 
         if (count($tks) != 3) {
-            throw new Exception('Wrong number of segments');
+            // throw new Exception('Wrong number of segments');
+            return false;
         }
 
         list($headb64, $payloadb64, $cryptob64) = $tks;
 
         if (null === ($header = json_decode(Token::urlsafeB64Decode($headb64)))) {
-            throw new Exception('Invalid segment encoding');
+            // throw new Exception('Invalid segment encoding');
+            return false;
         }
 
         if (null === $payload = json_decode(Token::urlsafeB64Decode($payloadb64))) {
-            throw new Exception('Invalid segment encoding');
+            // throw new Exception('Invalid segment encoding');
+            return false;
         }
 
         $sig = Token::urlsafeB64Decode($cryptob64);
@@ -43,7 +46,8 @@ class Token extends Prefab
 
             if (empty($header->alg)) {
                 if ($throw) {
-                    throw new DomainException('Empty algorithm');
+                    // throw new DomainException('Empty algorithm');
+                    return false;
                 } else {
                     return false;
                 }
@@ -51,7 +55,8 @@ class Token extends Prefab
 
             if (!Token::verify($sig, "$headb64.$payloadb64", $secret, $algo, $throw)) {
                 if ($throw) {
-                    throw new UnexpectedValueException('Signature verification failed');
+                    // throw new UnexpectedValueException('Signature verification failed');
+                    return false;
                 } else {
                     return false;
                 }
@@ -81,7 +86,8 @@ class Token extends Prefab
 
             default:
                 if ($throw) {
-                    throw new Exception("Unsupported or invalid signing algorithm.");
+                    // throw new Exception("Unsupported or invalid signing algorithm.");
+                    return false;
                 } else {
                     return false;
                 }
@@ -110,7 +116,8 @@ class Token extends Prefab
 
             default:
                 if ($throw) {
-                    throw new Exception("Unsupported or invalid signing algorithm.");
+                    // throw new Exception("Unsupported or invalid signing algorithm.");
+                    return false;
                 } else {
                     return false;
                 }
@@ -121,7 +128,8 @@ class Token extends Prefab
     {
         if (!openssl_sign($input, $signature, $secret, $algo)) {
             if ($throw) {
-                throw new Exception("Unable to sign data.");
+                // throw new Exception("Unable to sign data.");
+                return false;
             } else {
                 return false;
             }

@@ -1,7 +1,6 @@
 <?php
 
-
-// get true path for this index.php file
+// get true path for this file
 define('ROOT', str_replace(['\\', '\\\\', '//'], '/', __DIR__ . '/'));
 
 // composer installation check
@@ -15,11 +14,16 @@ require_once(ROOT . 'vendor/autoload.php');
 // require configuration array
 require_once(ROOT . 'config.php');
 
-// run the application
+// application
 $app = Base::instance();
 
 // load the configuration settings
 $app->mset($config);
+
+// set api language directories
+foreach (Helper::recursive_glob(ROOT . 'api/*/lang/') as $file) {
+    $app->LOCALES .= '|' . str_replace(ROOT, '', $file);
+}
 
 // application route configuration
 if ($app->RESTFUL && !empty($app->RESTFUL)) {

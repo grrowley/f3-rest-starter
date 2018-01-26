@@ -10,7 +10,7 @@ $config = [
     // debug level (0-3)
     'DEBUG'    => 3,
 
-    // unique 16 character encrypting key (key this private)
+    // unique 16 character encrypting key (keep this private)
     'APPKEY'   => '6esW@tar&Fethe48',
 
     // application file paths
@@ -32,7 +32,7 @@ $config = [
         'type' => 'mysql',
         'host' => 'localhost',
         'port' => '3306',
-        'name' => 'database',
+        'name' => 'restful_dev',
         'user' => 'root',
         'pswd' => 'root',
         'pfix' => ''
@@ -47,9 +47,6 @@ $config = [
         'POST   /api/@version/@controller'     => '@version\routes\@controller->post',
         'POST   /api/@version/@controller/@id' => '@version\routes\@controller->post',
         'DELETE /api/@version/@controller'     => '@version\routes\@controller->delete',
-        'DELETE /api/@version/@controller/@id' => '@version\routes\@controller->delete'
-    ],
-
-    // restful error response
-    'ONERROR'  => 'Errors->display'
+        'DELETE /api/@version/@controller/@id' => '@version\routes\@controller->delete',
+    ]
 ];
