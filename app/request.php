@@ -56,6 +56,7 @@ class Request extends Prefab
         if (!self::external() && !$app->exists('SESSION.token')) {
             $app->set('SESSION.token', Token::encode([
                 'uid'      => null,
+                'avatar'   => Helper::get_avatar('guest'),
                 'rights'   => ['guest'],
             ], $app->APPKEY, 'HS512', false));
         }

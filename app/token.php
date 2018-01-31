@@ -31,12 +31,16 @@ class Token extends Prefab
         list($headb64, $payloadb64, $cryptob64) = $tks;
 
         if (null === ($header = json_decode(Token::urlsafeB64Decode($headb64)))) {
-            // throw new Exception('Invalid segment encoding');
+            if ($throw === true) {
+                throw new Exception('Invalid segment encoding');
+            }
             return false;
         }
 
         if (null === $payload = json_decode(Token::urlsafeB64Decode($payloadb64))) {
-            // throw new Exception('Invalid segment encoding');
+            if ($throw === true) {
+                throw new Exception('Invalid segment encoding');
+            }
             return false;
         }
 
@@ -45,18 +49,16 @@ class Token extends Prefab
         if (isset($secret)) {
 
             if (empty($header->alg)) {
-                if ($throw) {
-                    // throw new DomainException('Empty algorithm');
-                    return false;
+                if ($throw === true) {
+                    throw new DomainException('Empty algorithm');
                 } else {
                     return false;
                 }
             }
 
             if (!Token::verify($sig, "$headb64.$payloadb64", $secret, $algo, $throw)) {
-                if ($throw) {
-                    // throw new UnexpectedValueException('Signature verification failed');
-                    return false;
+                if ($throw === true) {
+                    throw new UnexpectedValueException('Signature verification failed');
                 } else {
                     return false;
                 }
@@ -85,9 +87,8 @@ class Token extends Prefab
                 return (boolean) openssl_verify($input, $signature, $secret, OPENSSL_ALGO_SHA512);
 
             default:
-                if ($throw) {
-                    // throw new Exception("Unsupported or invalid signing algorithm.");
-                    return false;
+                if ($throw === true) {
+                    throw new Exception("Unsupported or invalid signing algorithm.");
                 } else {
                     return false;
                 }
@@ -115,9 +116,8 @@ class Token extends Prefab
                 return Token::generateRSA($input, $secret, OPENSSL_ALGO_SHA512, $throw);
 
             default:
-                if ($throw) {
-                    // throw new Exception("Unsupported or invalid signing algorithm.");
-                    return false;
+                if ($throw === true) {
+                    throw new Exception("Unsupported or invalid signing algorithm.");
                 } else {
                     return false;
                 }
@@ -127,9 +127,8 @@ class Token extends Prefab
     private static function generateRSA($input, $secret, $algo, $throw)
     {
         if (!openssl_sign($input, $signature, $secret, $algo)) {
-            if ($throw) {
-                // throw new Exception("Unable to sign data.");
-                return false;
+            if ($throw === true) {
+                throw new Exception("Unable to sign data.");
             } else {
                 return false;
             }
