@@ -11,14 +11,11 @@ if (!is_dir(ROOT . 'vendor')) {
 // require composer autoloader
 require_once(ROOT . 'vendor/autoload.php');
 
-// require configuration array
-require_once(ROOT . 'config.php');
-
 // application
 $app = Base::instance();
 
 // load the configuration settings
-$app->mset($config);
+$app->mset(include(ROOT . 'config.php'));
 
 // set api language directories
 foreach (Helper::recursive_glob(ROOT . 'api/*/lang/') as $file) {
