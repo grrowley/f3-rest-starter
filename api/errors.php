@@ -2,42 +2,42 @@
 
 class Errors
 {
-    function display($app)
+    function renderError($app)
     {
-        $req = \Request::instance();
-        $res = \Response::instance();
+        $request  = \Request::instance();
+        $response = \Response::instance();
 
-        $res->set('status', $app->ERROR['code']);
-        $res->set('message', $app->ERROR['status']);
+        $response->set('status', $app->ERROR['code']);
+        $response->set('message', $app->ERROR['status']);
         
         if ($app->ERROR['trace']) {
-            $res->set('_trace', $app->ERROR['trace']);
+            $response->set('_trace', $app->ERROR['trace']);
         }
         
         if ($app->ERROR['level']) {
-            $res->set('_level', $app->ERROR['level']);
+            $response->set('_level', $app->ERROR['level']);
         }
         
-        switch ($req->get('format', 'json')) {
+        switch ($request->get('format', 'json')) {
             case 'php':
-                echo $res->php();
+                echo $response->php();
                 break;
             case 'xml':
                 header("Content-Type: text/xml");
-                echo $res->xml();
+                echo $response->xml();
                 break;
             case 'jsonp':
                 header('Content-Type: application/json');
-                echo $req->get('callback', 'myCallback') . '(' . $res->json() . ')';
+                echo $request->get('callback', 'myCallback') . '(' . $response->json() . ')';
                 break;
             case 'serialized':
                 header('Content-Type: text/plain');
-                echo $res->serialized();
+                echo $response->serialized();
                 break;
             case 'json':
             default:
                 header('Content-Type: application/json');
-                echo $res->json();
+                echo $response->json();
                 break;
         }
     }
