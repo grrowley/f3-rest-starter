@@ -1,6 +1,6 @@
 <?php
 
-$config = [
+return [
 
     // package information
     'PACKAGE'  => 'Rest API',
