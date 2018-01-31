@@ -2,7 +2,7 @@
 
 namespace V1\Routes;
 
-class Signin extends \Base\Endpoint
+class Signin extends \Base\Rest
 {
     function init($app, $params)
     {
@@ -28,7 +28,7 @@ class Signin extends \Base\Endpoint
                 $this->response->set([
                     'status'  => 200,
                     'success' => true,
-                    'message' => $app->get('LANG.V1.error.signin.success'),
+                    'message' => $app->get('LANG.V1.response.signin.success'),
                     'token'   => \Token::encode([
                         'uid'    => $user->uid,
                         'rights' => $user->rights,
@@ -36,7 +36,7 @@ class Signin extends \Base\Endpoint
                     'content' => $data
                 ]);
             } else {
-                $this->response->set('message', $app->get('LANG.V1.error.signin.failure'));
+                $this->response->set('message', $app->get('LANG.V1.response.signin.failure'));
             }
         } else {
             $this->response->set('errors', $valid);
