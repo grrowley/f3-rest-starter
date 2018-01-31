@@ -5,7 +5,7 @@ return [
     // package information
     'PACKAGE'  => 'Rest API',
     'VERSION'  => '1.0.0',
-    'AUTHORS'  => 'Grant Rowley <me@grrowley.com>',
+    'AUTHORS'  => 'Your Name <your@email.com>',
 
     // debug level (0-3)
     'DEBUG'    => 3,
